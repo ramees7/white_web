@@ -64,7 +64,7 @@ export default function Navbar() {
     <div
       className={`${
         theme === "dark" ? "bg-[#232323] text-white" : "bg-[#eeeeee] text-black"
-      } flex justify-between gap-5 items-center h-24 md:px-10 px-5 fixed top-0 w-full`}
+      } flex justify-between gap-5 items-center h-24 md:px-10 px-5 fixed top-0 w-full z-30`}
     >
       <div className="text-2xl flex" onClick={toggleCanvas}>
         <FaBars className=" cursor-pointer" />
