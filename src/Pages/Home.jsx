@@ -1,3 +1,4 @@
+import HLanding from "../Components/HomePage/HLanding";
 import SEOHelmet from "../SEOHelmet/SEOHelmet";
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
         ogImage="https://www.whiterallwhiteallright.com/og-image.jpg" // Replace with actual image URL
         url="https://www.whiterallwhiteallright.com" // Replace with actual homepage URL
       />
-      {/* Your homepage content */}
+      <HLanding />
     </>
   );
 }

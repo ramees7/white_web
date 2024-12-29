@@ -13,7 +13,7 @@ export default function Loading() {
     >
       <img
         src={theme === "dark" ? whiteLogo : blackLogo}
-        alt="Logo Image"
+        alt="Logo Image" loading="lazy"
         className="md:w-40 md:h-40 w-28 h-28"
       />
     </div>
