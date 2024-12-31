@@ -1,0 +1,6 @@
+input:-webkit-autofill {
+  background-color: inherit !important; /* Inherit from parent background */
+  color: inherit !important; /* Inherit text color from parent */
+  box-shadow: 0 0 0px 1000px inherit inset !important; /* Match parent background */
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+}

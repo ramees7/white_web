@@ -5,14 +5,18 @@ import blackLogo from "../assets/logo-png-black.png";
 import whiteLogo from "../assets/logo-png-white.png";
 import { IoCartOutline } from "react-icons/io5";
 import { IoMdClose, IoMdSearch } from "react-icons/io";
-import { Link } from "react-router-dom";
-import { CiLight } from "react-icons/ci";
+import { Link, useNavigate } from "react-router-dom";
+import { CiLight, CiLogin } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
+import axiosInstance from "../Axios/InstanceAxios";
+import { message } from "antd";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
+  const [isLogined, setIsLogined] = useState(false);
   const canvasRef = useRef(null); // Reference for the canvas container
+  const navigate = useNavigate();
 
   const toggleCanvas = () => {
     setIsCanvasOpen(!isCanvasOpen);
@@ -45,6 +49,50 @@ export default function Navbar() {
     },
   ];
 
+  const profileItems = [
+    { label: "Profile", path: "/profile" },
+    { label: "Your Carts", path: "/carts" },
+    { label: "Your Orders", path: "/orders" },
+    { label: "Logout", path: "/api/logout", isLogout: true },
+  ];
+
+  const handleMenuClick = async (item) => {
+    if (item.isLogout) {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          message.error("Something Went Wrong!, Login First");
+          return;
+        }
+
+        const response = await axiosInstance.post(
+          "/api/logout", // Endpoint relative to the base URL
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Logout successful:", response.data);
+        message.success("Logout successful");
+        localStorage.removeItem("token");
+        navigate("/login"); // Redirect to login page
+        setIsLogined(false)
+      } catch (error) {
+        console.error(
+          "Error during logout:",
+          error.response?.data || error.message
+        );
+        message.error("Logout failed. Please try again.");
+      }
+    } else {
+      navigate(item.path);
+    }
+  };
+
   // Close canvas if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -66,8 +114,9 @@ export default function Navbar() {
         theme === "dark" ? "bg-[#232323] text-white" : "bg-[#eeeeee] text-black"
       } flex justify-between gap-5 items-center h-24 md:px-10 px-5 fixed top-0 w-full z-30`}
     >
-      <div className="text-2xl flex" onClick={toggleCanvas}>
+      <div className="md:text-2xl text-xl flex gap-3" onClick={toggleCanvas}>
         <FaBars className=" cursor-pointer" />
+        <FaBars style={{ visibility: "hidden" }} />
         <FaBars style={{ visibility: "hidden" }} />
         <FaBars style={{ visibility: "hidden" }} />
       </div>
@@ -81,16 +130,102 @@ export default function Navbar() {
         />
       </Link>
 
-      <div className="flex gap-3 items-center text-2xl">
-        <button
-          onClick={() => toggleTheme(theme === "dark" ? "light" : "dark")} // Toggle theme
-          className={`text-2xl`} // Tailwind classes for styling
-        >
-          {theme === "dark" ? <CiLight /> : <MdDarkMode />}
-        </button>
+      <div className="flex gap-3 items-center md:text-2xl text-xl">
+        <div className="relative group">
+          <button
+            onClick={() => toggleTheme(theme === "dark" ? "light" : "dark")} // Toggle theme
+            className="text-2xl flex items-center justify-center"
+          >
+            {theme === "dark" ? <CiLight /> : <MdDarkMode />}
+          </button>
+          <div
+            className={`absolute bottom-full w-28 text-center left-1/2 transform -translate-x-1/2 mb-2 px-4 py-1 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+              theme === "dark"
+                ? "bg-[#eeeeee] text-black"
+                : "bg-[#232323] text-white"
+            }`}
+          >
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </div>
+        </div>
+        <div className="relative group">
+          <IoMdSearch className="text-2xl relative" />
+          <div
+            className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm  rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+              theme === "dark"
+                ? "bg-[#eeeeee] text-black"
+                : " bg-[#232323] text-white"
+            }`}
+          >
+            Search
+          </div>
+        </div>
+        <div className="relative group">
+          <Link to={"/cart"} className="relative">
+            <IoCartOutline className="text-2xl" />
+          </Link>
+          <div
+            className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm  rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+              theme === "dark"
+                ? "bg-[#eeeeee] text-black"
+                : " bg-[#232323] text-white"
+            }`}
+          >
+            Cart
+          </div>
+        </div>
+        {isLogined ? (
+          <div className="relative group">
+            <div className="rounded-full">
+              <img
+                src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
+                alt="Profile"
+                className="w-7 h-7 rounded-full"
+                loading="lazy"
+              />
+            </div>
 
-        <IoMdSearch />
-        <IoCartOutline />
+            {/* Dropdown menu */}
+            <div
+              className={`absolute left-1/2 transform -translate-x-3/4  py-5 min-w-fit w-44 ${
+                theme === "dark"
+                  ? "bg-[#121212] text-white"
+                  : "bg-white text-black"
+              } shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:block pointer-events-none group-hover:pointer-events-auto`}
+            >
+              <ul>
+                {profileItems.map((item, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleMenuClick(item)}
+                    className={`px-5 py-2 text-base ${
+                      theme === "dark"
+                        ? "hover:bg-[#232323]"
+                        : "hover:bg-[#eeeeee]"
+                    }  cursor-pointer rounded-md`}
+                  >
+                    {item.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div className="relative group">
+            <Link to={"/login"} className="relative">
+              <CiLogin className="text-2xl" />
+            </Link>
+            <div
+              className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm  rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                theme === "dark"
+                  ? "bg-[#eeeeee] text-black"
+                  : " bg-[#232323] text-white"
+              }`}
+            >
+              Login
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Left Canvas (Off-canvas navigation) */}
