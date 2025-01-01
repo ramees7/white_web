@@ -135,7 +135,7 @@ export default function Login() {
       </div>
 
       <div className="lg:col-span-4 md:col-span-3 md:block hidden">
-        <img src={HLandingBg1} alt="Background" className="w-full h-full" />
+        <img src={HLandingBg1} alt="Background" className="w-full h-full" loading="lazy" />
       </div>
     </div>
   );
