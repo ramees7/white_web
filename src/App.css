@@ -4,3 +4,10 @@ input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px inherit inset !important; /* Match parent background */
   transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
 }
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}

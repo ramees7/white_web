@@ -5,13 +5,25 @@ import { ThemeContext } from "../../Context/ThemeContextApi";
 import axiosInstance from "../../Axios/InstanceAxios";
 import { message } from "antd";
 import HLandingBg1 from "../../assets/Hlanding-bg-1.jpg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function VerifyOtp() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timer, setTimer] = useState(20); // Timer starts at 60 seconds
+  const location = useLocation();
+
+  const handleToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    handleToTop();
+  }, [location]);
 
   // Timer effect to enable the resend button after 1 minute
   useEffect(() => {
@@ -57,7 +69,7 @@ export default function VerifyOtp() {
         });
 
         message.success("OTP verified! Registration successful.");
-        navigate('/login')
+        navigate("/login");
         console.log("Response:", response.data);
       } catch (error) {
         console.error("OTP verification error:", error);
@@ -134,7 +146,12 @@ export default function VerifyOtp() {
       </div>
 
       <div className="lg:col-span-4 md:col-span-3 md:block hidden">
-        <img src={HLandingBg1} alt="Background" className="w-full h-full" loading="lazy" />
+        <img
+          src={HLandingBg1}
+          alt="Background"
+          className="w-full h-full"
+          loading="lazy"
+        />
       </div>
     </div>
   );

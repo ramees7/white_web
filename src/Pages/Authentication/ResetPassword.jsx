@@ -1,21 +1,33 @@
 import HLandingBg1 from "../../assets/Hlanding-bg-1.jpg";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ThemeContext } from "../../Context/ThemeContextApi";
 import { message } from "antd";
 import axiosInstance from "../../Axios/InstanceAxios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function ResetPassword() {
   const [step, setStep] = useState(1);
   const { theme } = useContext(ThemeContext);
+  const location = useLocation();
+
+  const handleToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    handleToTop();
+  }, [location]);
 
   const handleEmailSubmit = async (email) => {
     try {
       const response = await axiosInstance.post("/api/forget-password", {
         email,
-      });      
+      });
       message.success(response.data);
       setStep(2);
     } catch (error) {
@@ -28,7 +40,7 @@ export default function ResetPassword() {
       const response = await axiosInstance.post("/api/verify-password-otp", {
         email,
         otp,
-      });      
+      });
       message.success(response.data);
       setStep(3);
     } catch (error) {

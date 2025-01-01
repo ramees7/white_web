@@ -1,17 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "../../Axios/InstanceAxios";
 import HLandingBg1 from "../../assets/Hlanding-bg-1.jpg";
 import { ThemeContext } from "../../Context/ThemeContextApi";
 import { message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
 
 export default function Login() {
   const { theme } = useContext(ThemeContext);
   const navigate=useNavigate()
+  const location = useLocation();
 
+  const handleToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    handleToTop();
+  }, [location]);
+  
   const formik = useFormik({
     initialValues: {
       email: "",

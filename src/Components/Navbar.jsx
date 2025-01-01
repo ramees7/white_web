@@ -14,6 +14,7 @@ import { message } from "antd";
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
+  const [cartCount] = useState(0);
   const [isLogined, setIsLogined] = useState(false);
   const canvasRef = useRef(null); // Reference for the canvas container
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ export default function Navbar() {
         message.success("Logout successful");
         localStorage.removeItem("token");
         navigate("/login"); // Redirect to login page
-        setIsLogined(false)
+        setIsLogined(false);
       } catch (error) {
         console.error(
           "Error during logout:",
@@ -163,12 +164,15 @@ export default function Navbar() {
         <div className="relative group">
           <Link to={"/cart"} className="relative">
             <IoCartOutline className="text-2xl" />
+            <div className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+              {cartCount}
+            </div>
           </Link>
           <div
-            className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm  rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+            className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity ${
               theme === "dark"
                 ? "bg-[#eeeeee] text-black"
-                : " bg-[#232323] text-white"
+                : "bg-[#232323] text-white"
             }`}
           >
             Cart

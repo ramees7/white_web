@@ -8,7 +8,7 @@ export default function HLanding() {
 
   return (
     <div
-      className={`mt-24 h-[600px] relative${
+      className={`mt-24 h-[600px] relative ${
         theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
       }
       `}
