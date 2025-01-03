@@ -11,7 +11,7 @@ import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
 import ResetPassword from "./Pages/Authentication/ResetPassword";
 import PageNotFound from "./Pages/PageNotFound";
-import VerifyOtp from "./Pages/Authentication/VerifyOtp";
+// import VerifyOtp from "./Pages/Authentication/VerifyOtp";
 
 // Lazy load the Home component
 const Home = lazy(() => import("./Pages/Home"));
@@ -33,7 +33,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/verify-otp" element={<VerifyOtp />} />
+              {/* <Route path="/verify-otp" element={<VerifyOtp />} /> */}
               <Route path="/forget-password" element={<ResetPassword />} />
               <Route path="/page-not-found" element={<PageNotFound />} />
               <Route

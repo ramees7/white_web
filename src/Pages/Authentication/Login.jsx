@@ -7,10 +7,11 @@ import { ThemeContext } from "../../Context/ThemeContextApi";
 import { message } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
+import cryptoJs from "crypto-js";
 
 export default function Login() {
   const { theme } = useContext(ThemeContext);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleToTop = () => {
@@ -23,7 +24,7 @@ export default function Login() {
   useEffect(() => {
     handleToTop();
   }, [location]);
-  
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -45,10 +46,14 @@ export default function Login() {
           email,
           password,
         });
-
+        const encryptedToken = cryptoJs.AES.encrypt(
+          response.data.token,
+          "whiter_8113000314"
+        ).toString();
+        // Save encrypted token to localStorage
+        localStorage.setItem("authToken", encryptedToken);
         message.success("Login successful!");
-        navigate('/')
-        console.log("Token:", response.data.token); // Save token securely
+        navigate("/");
       } catch (error) {
         console.error("Login error:", error);
         message.error(error.response?.data || "Server Error");
@@ -147,7 +152,12 @@ export default function Login() {
       </div>
 
       <div className="lg:col-span-4 md:col-span-3 md:block hidden">
-        <img src={HLandingBg1} alt="Background" className="w-full h-full" loading="lazy" />
+        <img
+          src={HLandingBg1}
+          alt="Background"
+          className="w-full h-full"
+          loading="lazy"
+        />
       </div>
     </div>
   );

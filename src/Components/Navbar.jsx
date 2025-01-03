@@ -10,6 +10,7 @@ import { CiLight, CiLogin } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
 import axiosInstance from "../Axios/InstanceAxios";
 import { message } from "antd";
+import cryptoJs from "crypto-js";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -57,16 +58,47 @@ export default function Navbar() {
     { label: "Logout", path: "/api/logout", isLogout: true },
   ];
 
+  useEffect(() => {
+    const encryptedToken = localStorage.getItem("authToken");
+
+    if (encryptedToken) {
+      // Decrypt the token
+      const bytes = cryptoJs.AES.decrypt(encryptedToken, "whiter_8113000314");
+      const token = bytes.toString(cryptoJs.enc.Utf8);
+
+      if (token) {
+        // If a valid token exists, set the login state to true
+        setIsLogined(true);
+      } else {
+        // If the token is invalid or expired, set the login state to false
+        setIsLogined(false);
+      }
+    } else {
+      setIsLogined(false);
+    }
+  }, []);
+  
   const handleMenuClick = async (item) => {
     if (item.isLogout) {
       try {
-        const token = localStorage.getItem("token");
+        // Get the encrypted token from localStorage
+        const encryptedToken = localStorage.getItem("authToken");
 
-        if (!token) {
-          message.error("Something Went Wrong!, Login First");
+        if (!encryptedToken) {
+          message.error("Something Went Wrong! Login First");
           return;
         }
 
+        // Decrypt the token
+        const bytes = cryptoJs.AES.decrypt(encryptedToken, "whiter_8113000314");
+        const token = bytes.toString(cryptoJs.enc.Utf8);
+
+        if (!token) {
+          message.error("Invalid or expired token");
+          return;
+        }
+
+        // Send logout request with decrypted token
         const response = await axiosInstance.post(
           "/api/logout", // Endpoint relative to the base URL
           {},
@@ -79,9 +111,13 @@ export default function Navbar() {
 
         console.log("Logout successful:", response.data);
         message.success("Logout successful");
-        localStorage.removeItem("token");
-        navigate("/login"); // Redirect to login page
+
+        // Remove the token from localStorage
+        localStorage.removeItem("authToken");
+
+        // Update login state and redirect to login page
         setIsLogined(false);
+        navigate("/login");
       } catch (error) {
         console.error(
           "Error during logout:",

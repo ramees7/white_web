@@ -11,6 +11,8 @@ export default function ResetPassword() {
   const [step, setStep] = useState(1);
   const { theme } = useContext(ThemeContext);
   const location = useLocation();
+  const [timer, setTimer] = useState(60); // Timer for OTP resend
+  const [isResendDisabled, setIsResendDisabled] = useState(true); // Disable resend button when timer is active
 
   const handleToTop = () => {
     window.scrollTo({
@@ -22,6 +24,20 @@ export default function ResetPassword() {
   useEffect(() => {
     handleToTop();
   }, [location]);
+
+  useEffect(() => {
+    if (step === 2 && isResendDisabled && timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+
+    if (timer === 0) {
+      setIsResendDisabled(false);
+    }
+  }, [step, isResendDisabled, timer]);
 
   const handleEmailSubmit = async (email) => {
     try {
@@ -45,6 +61,18 @@ export default function ResetPassword() {
       setStep(3);
     } catch (error) {
       message.error(error.response?.data || "Error verifying OTP");
+    }
+  };
+  const handleResendOtp = async (email) => {
+    try {
+      const response = await axiosInstance.post("/api/resend-otp-forget", {
+        email,
+      });
+      setIsResendDisabled(true); // Disable resend button after sending OTP
+      setTimer(60); // Reset timer to 60 seconds when resend is clicked
+      message.success(response.data || "OTP resent successfully!");
+    } catch (error) {
+      message.error(error.response?.data || "Error resending OTP");
     }
   };
 
@@ -190,6 +218,21 @@ export default function ResetPassword() {
                 disabled={otpFormik.isSubmitting}
               >
                 Submit OTP
+              </button>
+              <button
+                className={`w-full py-2 rounded-sm ${
+                  isResendDisabled
+                    ? "bg-gray-400 text-white cursor-not-allowed"
+                    : theme === "dark"
+                    ? "bg-white text-black"
+                    : "bg-[#121212] text-white"
+                }`}
+                onClick={() => handleResendOtp(emailFormik.values.email)}
+                disabled={isResendDisabled}
+              >
+                {isResendDisabled
+                  ? `Resend OTP in ${timer} seconds`
+                  : "Resend OTP"}
               </button>
             </form>
           )}
