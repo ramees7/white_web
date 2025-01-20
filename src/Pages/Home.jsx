@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import HLanding from "../Components/HomePage/HLanding";
-import ProductCategory from "../Components/HomePage/ProductCategory";
+// import ProductCategory from "../Components/HomePage/ProductCategory";
 import SEOHelmet from "../SEOHelmet/SEOHelmet";
 import { useEffect } from "react";
 import ProductCardView from "../Components/ProductCardView";

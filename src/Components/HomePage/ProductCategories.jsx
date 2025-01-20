@@ -56,7 +56,7 @@ export default function ProductCategories() {
   ];
 
   return (
-    <div className={` relative  `} style={{ fontFamily: "Montserrat, serif" }}>
+    <div className={` relative font-montserrat `}>
       <div
         className={`grid grid-cols-2 grid-rows-2  lg:gap-10 gap-5 max-h-screen min-h-[400px] lg:px-20 px-10 lg:py-10 py-5 h-fit ${
           theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
@@ -133,14 +133,16 @@ export default function ProductCategories() {
         <div
           className="fixed top-0 left-0 w-full h-screen -z-10 bg-cover bg-center"
           style={{ backgroundImage: `url(${categoryList[3].thumbnail})` }}
-        ></div>
+        >
+          <div className="absolute inset-0 bg-black opacity-30"></div>
+        </div>
         <div className="flex flex-col gap-6 justify-center items-center h-full">
           <div
-            className={`${
-              theme === "dark" ? " text-white " : " text-black "
-            } text-center`}
+            className={`text-white text-center`}
           >
-            <h1 className={`md:text-5xl text-3xl font-semibold uppercase `}>{categoryList[3].title}</h1>
+            <h1 className={`md:text-5xl text-3xl font-semibold uppercase `}>
+              {categoryList[3].title}
+            </h1>
             <h3 className="text-sm md:text-base">
               {categoryList[3].description}
             </h3>
@@ -162,8 +164,17 @@ export default function ProductCategories() {
         }`}
       >
         {categoryList.slice(4).map((category, index) => (
-          <div className={`grid md:grid-cols-2 gap-5 md:gap-0 ${index===0 ?"":"md:mt-0 mt-10"} h-fit `} key={index}>
-            <div className={`${ index % 2 === 0? "md:order-1 order-2" : " order-2"} `}>
+          <div
+            className={`grid md:grid-cols-2 gap-5 md:gap-0 ${
+              index === 0 ? "" : "md:mt-0 mt-10"
+            } h-fit `}
+            key={index}
+          >
+            <div
+              className={`${
+                index % 2 === 0 ? "md:order-1 order-2" : " order-2"
+              } `}
+            >
               <img
                 src={category.thumbnail}
                 alt={category.title}
@@ -180,7 +191,9 @@ export default function ProductCategories() {
                   theme === "dark" ? " text-white " : " text-black "
                 } text-center`}
               >
-                <h1 className={`md:text-5xl text-3xl font-semibold uppercase `}>{category.title}</h1>
+                <h1 className={`md:text-5xl text-3xl font-semibold uppercase `}>
+                  {category.title}
+                </h1>
                 <h3 className="text-sm md:text-base">{category.description}</h3>
               </div>
               <button

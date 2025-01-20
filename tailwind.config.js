@@ -3,6 +3,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        carme: ["Carme", "serif"],
+        helvetica: ["Helvetica", "sans-serif"],
+        montserrat: ["Montserrat", "serif"],
+      },
       keyframes: {
         pop: {
           "0%, 100%": { transform: "scale(1)" },

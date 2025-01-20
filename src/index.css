@@ -13,5 +13,11 @@
   margin: 0%;
   box-sizing: border-box;
   /* font-family: "Revoxa", sans-serif; */
-  font-family: "Carme", serif;
+  /* font-family: "Carme", serif; */
+}
+@font-face {
+  font-family: "Helvetica";
+  src: url("/src/font/Helvetica.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
 }

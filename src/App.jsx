@@ -11,6 +11,7 @@ import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
 import ResetPassword from "./Pages/Authentication/ResetPassword";
 import PageNotFound from "./Pages/PageNotFound";
+import ProductView from "./Pages/ProductView";
 // import VerifyOtp from "./Pages/Authentication/VerifyOtp";
 
 // Lazy load the Home component
@@ -35,6 +36,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               {/* <Route path="/verify-otp" element={<VerifyOtp />} /> */}
               <Route path="/forget-password" element={<ResetPassword />} />
+              <Route path="/product/:sku" element={<ProductView />} />
               <Route path="/page-not-found" element={<PageNotFound />} />
               <Route
                 path="*"
