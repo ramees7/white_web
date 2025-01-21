@@ -142,10 +142,13 @@ export default function Navbar() {
     const handleClickOutside = (event) => {
       if (canvasRef.current && !canvasRef.current.contains(event.target)) {
         setIsCanvasOpen(false); // Close the canvas if click is outside
-       // Close cart offcanvas if click is outside
+        // Close cart offcanvas if click is outside
       }
-      if (cartCanvasRef.current && !cartCanvasRef.current.contains(event.target)) {
-        setIsCartOffcanvasOpen(false);       // Close cart offcanvas if click is outside
+      if (
+        cartCanvasRef.current &&
+        !cartCanvasRef.current.contains(event.target)
+      ) {
+        setIsCartOffcanvasOpen(false); // Close cart offcanvas if click is outside
       }
     };
 
@@ -200,7 +203,10 @@ export default function Navbar() {
             </div>
           </div>
           <div className="relative group md:text-2xl text-xl">
-            <IoMdSearch className="text-2xl relative" />
+            <Link to={'/all-products'}>
+              {" "}
+              <IoMdSearch className="text-2xl relative" />
+            </Link>
             <div
               className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm  rounded opacity-0 group-hover:opacity-100 transition-opacity ${
                 theme === "dark"
@@ -235,7 +241,8 @@ export default function Navbar() {
                   : "bg-white text-black"
               } transition-transform transform ${
                 isCartOffcanvasOpen ? "translate-x-0" : "translate-x-full"
-              }`} onClick={(e) => e.stopPropagation()}
+              }`}
+              onClick={(e) => e.stopPropagation()}
             >
               <CartOffcanvas />
             </div>

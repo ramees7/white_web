@@ -40,7 +40,79 @@ export default function ProductCardView() {
       MRP: 3499,
       SKU: "123",
       offerPrice: 1999,
-      stockCount: 2,
+      stockCount: 10,
+    },
+    {
+      title: "Floral Summer Dress",
+      imageUrls: [
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_005.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+      ],
+      MRP: 2499,
+      SKU: "121",
+      offerPrice: 1499,
+      stockCount: 0,
+    },
+    {
+      title: "Men's Casual Shirt",
+      imageUrls: [
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_005.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+      ],
+      MRP: 1999,
+      SKU: "122",
+      offerPrice: 1199,
+      stockCount: 5,
+    },
+    {
+      title: "Kids' Party Wear Dress",
+      imageUrls: [
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_005.jpg?v=1736889008&width=1080",
+      ],
+      MRP: 3499,
+      SKU: "123",
+      offerPrice: 1999,
+      stockCount: 10,
+    },
+    {
+      title: "Floral Summer Dress",
+      imageUrls: [
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_005.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+      ],
+      MRP: 2499,
+      SKU: "121",
+      offerPrice: 1499,
+      stockCount: 0,
+    },
+    {
+      title: "Men's Casual Shirt",
+      imageUrls: [
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_005.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+      ],
+      MRP: 1999,
+      SKU: "122",
+      offerPrice: 1199,
+      stockCount: 5,
+    },
+    {
+      title: "Kids' Party Wear Dress",
+      imageUrls: [
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_005.jpg?v=1736889008&width=1080",
+      ],
+      MRP: 3499,
+      SKU: "123",
+      offerPrice: 1999,
+      stockCount: 10,
     },
   ];
 
@@ -56,7 +128,7 @@ export default function ProductCardView() {
         </h1>
         <div>
           <Link
-            to={"/allproducts"}
+            to={"/all-products"}
             className={` md:px-8 px-4 text-sm md:text-base py-1 border bg-transparent uppercase ${
               theme === "dark"
                 ? "hover:bg-[#fff]  hover:text-black border-white hover:border-[#121212]"
@@ -68,7 +140,7 @@ export default function ProductCardView() {
         </div>
       </div>
       <div
-        className="grid grid-flow-col overflow-x-auto auto-cols-[calc(85%-1rem)] lg:auto-cols-[calc(23%-1rem)] md:auto-cols-[calc(40%-1rem)] gap-4  "
+        className="grid grid-flow-col overflow-x-auto auto-cols-[calc(70%-1rem)] lg:auto-cols-[calc(23%-1rem)] md:auto-cols-[calc(40%-1rem)] gap-4  "
         style={{ scrollSnapType: "x mandatory" }}
       >
         {products.map((product, index) => (
@@ -118,7 +190,7 @@ export default function ProductCardView() {
                 <h1 className={`text-sm line-through text-[#8e8e8e]`}>
                   ₹{product.MRP}
                 </h1>
-                <h1 className="text-sm">₹{product.offerPrice}</h1>
+                <h1 className="text-sm font-semibold">₹{product.offerPrice}</h1>
               </div>
             </div>
           </div>

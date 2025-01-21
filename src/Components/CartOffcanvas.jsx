@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { MdDelete, MdFullscreen } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../Context/ThemeContextApi";
 import { FaMinus, FaPlus } from "react-icons/fa";
@@ -31,14 +31,10 @@ export default function CartOffcanvas() {
   ]);
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Top Section */}
-      <div className="flex justify-between p-5 border-b items-center h-fit text-2xl">
-        <h1>Cart : {cartProducts.length}</h1>
-        <Link to={"/"}>
-          <MdFullscreen />
-        </Link>
-      </div>
+    <div className="h-full flex flex-col font-helvetica">
+      <h1 className="p-5 border-b  h-fit text-2xl">
+        Your Cart : {cartProducts.length}
+      </h1>
 
       {/* Center Section */}
       <div
@@ -50,7 +46,10 @@ export default function CartOffcanvas() {
           <div className="p-5 space-y-5">
             {/* Product cart content starts from the top */}
             {cartProducts.map((product, index) => (
-              <div key={index} className="flex justify-between gap-3 h-full text-[#8e8e8e]">
+              <div
+                key={index}
+                className="flex justify-between gap-3 h-full text-[#8e8e8e]"
+              >
                 <div className="flex items-center gap-3">
                   <img
                     src={product.thumbnail}
@@ -59,12 +58,9 @@ export default function CartOffcanvas() {
                   />
                   <div>
                     <h1 className="text-lg">{product.title}</h1>
-                    <p className="text-sm">
-                      Price: {product.offerPrice}
-                    </p>
-                    <p className="text-sm">
-                      Quantity: {product.quantity}
-                    </p>
+                    <p className="text-sm">Price: {product.offerPrice}</p>
+                    <p className="text-sm">Size: {product.size}</p>
+                    <p className="text-sm">Quantity: {product.quantity}</p>
                   </div>
                 </div>
                 <div className=" flex flex-col justify-between items-end">
@@ -90,14 +86,29 @@ export default function CartOffcanvas() {
         )}
       </div>
 
-      <div className="p-2 h-fit">
-        <button
-          className={`w-full py-2 text-base uppercase ${
-            theme === "dark" ? "bg-white text-black" : "bg-[#121212] text-white"
-          }`}
-        >
-          {cartProducts.length > 0 ? "Check Out Now" : "Shop Now"}
-        </button>
+      <div className="p-5 h-fit border-t">
+        {cartProducts.length > 0 && (
+          <>
+            <div className="flex justify-between items-center text-xl">
+              <h2>Estimated total</h2>
+              <h2>RS : 500</h2>
+            </div>
+            <p className="text-xs text-[#8e8e8e] py-2 text-center">
+              Taxes, Discounts and shipping calculated at checkout
+            </p>
+          </>
+        )}
+        <Link to={'/'}>
+          <button
+            className={`w-full py-2 text-base uppercase ${
+              theme === "dark"
+                ? "bg-white text-black"
+                : "bg-[#121212] text-white"
+            }`}
+          >
+            {cartProducts.length > 0 ? "Check Out Now" : "Shop Now"}
+          </button>
+        </Link>
       </div>
     </div>
   );

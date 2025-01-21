@@ -7,6 +7,7 @@ import {
 } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import ProductCardView from "../Components/ProductCardView";
 
 export default function ProductView() {
   const { theme } = useContext(ThemeContext);
@@ -106,164 +107,173 @@ export default function ProductView() {
   const shouldShowSeeMore = product.reviews.length > 3;
 
   return (
-    <div
-      className={`grid lg:grid-cols-3 gap-10 lg:px-20 px-10 md:py-10 py-5 font-helvetica ${
-        theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
-      }`}
-    >
-      <div className="col-span-2 space-y-1">
-        <div className="grid grid-cols-2  gap-1 ">
-          {product.imageUrls.slice(0, 2).map((url, idx) => (
-            <img
-              key={idx}
-              src={url}
-              alt={`Image ${idx + 1}`}
-              className="md:h-[500px] h-[300px] w-full"
-            />
-          ))}
-        </div>
-        <div className="grid grid-cols-4 gap-1">
-          {product.imageUrls.slice(2).map((url, idx) => (
-            <img
-              key={idx}
-              src={url}
-              alt={`Image ${idx + 3}`}
-              className="md:h-[300px] h-[150px] w-full"
-            />
-          ))}
-        </div>
-      </div>
-      <div className="col-span-1 space-y-7">
-        <div className="border-b pb-3">
-          <h1 className="text-4xl mb-2">{product.title}</h1>
-          <div className="flex items-center gap-5">
-            <div className="flex items-center space-x-1 text-base pe-5 border-r w-fit">
-              {renderStars(product.ratings)}
-              <span className="text-sm text-[#8e8e8e]">
-                ({product.ratings})
-              </span>
-            </div>
-            <h3>
-              SKU : <span className="text-[#8e8e8e]">{product.sku}</span>
-            </h3>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center gap-5">
-            <h1 className="text-xl">₹{product.offerPrice}</h1>
-            <h1 className={`text-xl line-through text-[#8e8e8e]`}>
-              ₹{product.MRP}
-            </h1>
-          </div>
-          <h3>Color : {product.color}</h3>
-          <h3>Brand : {product.brand}</h3>
-          <h3>Category : {product.category}</h3>
-
-          <h3> Size : {selectedSize}</h3>
-          <div className="flex gap-2 ">
-            {product.sizes.map((size) => (
-              <div
-                key={size}
-                onClick={() => handleSizeClick(size)}
-                className={`border px-2 cursor-pointer ${
-                  selectedSize === size
-                    ? theme === "dark"
-                      ? "border-[#fff] border-2"
-                      : "border-[#000] border-2"
-                    : "border-[#8e8e8e]"
-                }`}
-              >
-                {size}
-              </div>
+    <>
+      <div
+        className={`grid lg:grid-cols-3 gap-10 lg:px-20 px-10 md:py-10 py-5 font-helvetica ${
+          theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
+        }`}
+      >
+        <div className="col-span-2 space-y-1">
+          <div className="grid grid-cols-2  gap-1 ">
+            {product.imageUrls.slice(0, 2).map((url, idx) => (
+              <img
+                key={idx}
+                src={url}
+                alt={`Image ${idx + 1}`}
+                className="md:h-[500px] h-[300px] w-full"
+              />
             ))}
           </div>
-          <h3> Quantity : 2</h3>
-          <div className="flex gap-2">
-            <button className="p-1 border" title="Increase Quantity">
-              <FaPlus />
-            </button>
-            <button className="p-1 border" title="Decrease Quantity">
-              <FaMinus />
-            </button>
+          <div className="grid grid-cols-4 gap-1">
+            {product.imageUrls.slice(2).map((url, idx) => (
+              <img
+                key={idx}
+                src={url}
+                alt={`Image ${idx + 3}`}
+                className="md:h-[300px] h-[150px] w-full"
+              />
+            ))}
           </div>
         </div>
-        <div
-          className={`flex justify-between items-center py-2 px-5 ${
-            theme === "dark"
-              ? "bg-[#232323] text-white"
-              : "bg-[#eeeeee] text-black"
-          } `}
-        >
-          <h2>Stock Availability</h2>
-          <h2>: {product.stockCount > 0 ? "AVAILABLE" : "NOT-AVAILABLE"} </h2>
-        </div>
-        <div>
-          <button
-            disabled={product.stockCount <= 0}
-            className={`py-2 w-full text-base uppercase  ${
-              theme === "dark"
-                ? "bg-white text-black "
-                : "bg-[#121212] text-white "
-            } `}
-          >
-            {product.stockCount > 0 ? "Add to Cart" : "Out of Stock"}
-          </button>
-        </div>
-        <div className="space-y-2">
-          <h3>
-            Material :{" "}
-            <span className="text-[#8e8e8e]">{product.material}</span>
-          </h3>
-          <h3>
-            Care Instruction :{" "}
-            <span className="text-[#8e8e8e]">{product.careInstructions}</span>
-          </h3>
-          <p>
-            Description :{" "}
-            <span className="text-[#8e8e8e]">{product.description}</span>
-          </p>
-        </div>
-        <div>
-          <h3 className="mb-3">Reviews :</h3>
-          {displayedReviews.map((review, index) => (
-            <div
-              key={index}
-              className="border border-[#8e8e8e] p-2 mb-1 rounded-md"
-            >
-              <div className="flex gap-5">
-                <div className="flex items-center text-base rounded-sm text-white px-1 bg-[#388e3c] h-fit">
-                  <span>{review.rating}</span>
-                  <MdOutlineStar />
-                </div>
-                <h3>{review.title}</h3>
+        <div className="col-span-1 space-y-7">
+          <div className="border-b pb-3">
+            <h1 className="text-4xl mb-2">{product.title}</h1>
+            <div className="flex items-center gap-5">
+              <div className="flex items-center space-x-1 text-base pe-5 border-r w-fit">
+                {renderStars(product.ratings)}
+                <span className="text-sm text-[#8e8e8e]">
+                  ({product.ratings})
+                </span>
               </div>
-              <div className="text-[#8e8e8e] mt-2 flex items-center justify-between text-sm">
-                <h4>Buyer : {review.buyer}</h4>
-                <h4>Date : {review.date}</h4>
-              </div>
+              <h3>
+                SKU : <span className="text-[#8e8e8e]">{product.sku}</span>
+              </h3>
             </div>
-          ))}
-          {shouldShowSeeMore ? (
-            !showAll ? (
-              <button
-                onClick={() => setShowAll(true)}
-                className="mt-3  w-full  rounded shadow "
-              >
-                See More
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center gap-5">
+              <h1 className="text-xl">₹{product.offerPrice}</h1>
+              <h1 className={`text-xl line-through text-[#8e8e8e]`}>
+                ₹{product.MRP}
+              </h1>
+            </div>
+            <h3>Color : {product.color}</h3>
+            <h3>Brand : {product.brand}</h3>
+            <h3>Category : {product.category}</h3>
+
+            <h3> Size : {selectedSize}</h3>
+            <div className="flex gap-2 ">
+              {product.sizes.map((size) => (
+                <div
+                  key={size}
+                  onClick={() => handleSizeClick(size)}
+                  className={`border px-2 cursor-pointer ${
+                    selectedSize === size
+                      ? theme === "dark"
+                        ? "border-[#fff] border-2"
+                        : "border-[#000] border-2"
+                      : "border-[#8e8e8e]"
+                  }`}
+                >
+                  {size}
+                </div>
+              ))}
+            </div>
+            <h3> Quantity :</h3>
+            <div className="flex gap-2">
+              <button className="p-1 border" title="Increase Quantity">
+                <FaPlus />
               </button>
-            ) : (
-              <button
-                onClick={() => setShowAll(false)}
-                className="mt-3  w-full  rounded shadow "
-              >
-                See Less
+              <h2>2</h2>
+              <button className="p-1 border" title="Decrease Quantity">
+                <FaMinus />
               </button>
-            )
-          ) : (
-            ""
+            </div>
+          </div>
+
+          <div>
+            <button
+              disabled={product.stockCount <= 0}
+              className={`py-2 w-full text-base uppercase  ${
+                theme === "dark"
+                  ? "bg-white text-black "
+                  : "bg-[#121212] text-white "
+              } `}
+            >
+              {product.stockCount > 0 ? "Add to Cart" : "Out of Stock"}
+            </button>
+          </div>
+          {product.stockCount > 0 && (
+            <div>
+              <button
+                className={`py-2 w-full text-base uppercase  ${
+                  theme === "dark"
+                    ? "bg-white text-black "
+                    : "bg-[#121212] text-white "
+                } `}
+              >
+                Buy Now
+              </button>
+            </div>
           )}
+
+          <div className="space-y-2">
+            <h3>
+              Material :{" "}
+              <span className="text-[#8e8e8e]">{product.material}</span>
+            </h3>
+            <h3>
+              Care Instruction :{" "}
+              <span className="text-[#8e8e8e]">{product.careInstructions}</span>
+            </h3>
+            <p>
+              Description :{" "}
+              <span className="text-[#8e8e8e]">{product.description}</span>
+            </p>
+          </div>
+          <div>
+            <h3 className="mb-3">Reviews :</h3>
+            {displayedReviews.map((review, index) => (
+              <div
+                key={index}
+                className="border border-[#8e8e8e] p-2 mb-1 rounded-md"
+              >
+                <div className="flex gap-5">
+                  <div className="flex items-center text-base rounded-sm text-white px-1 bg-[#388e3c] h-fit">
+                    <span>{review.rating}</span>
+                    <MdOutlineStar />
+                  </div>
+                  <h3>{review.title}</h3>
+                </div>
+                <div className="text-[#8e8e8e] mt-2 flex items-center justify-between text-sm">
+                  <h4>Buyer : {review.buyer}</h4>
+                  <h4>Date : {review.date}</h4>
+                </div>
+              </div>
+            ))}
+            {shouldShowSeeMore ? (
+              !showAll ? (
+                <button
+                  onClick={() => setShowAll(true)}
+                  className="mt-3  w-full  rounded shadow "
+                >
+                  See More
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowAll(false)}
+                  className="mt-3  w-full  rounded shadow "
+                >
+                  See Less
+                </button>
+              )
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <ProductCardView/>
+    </>
   );
 }

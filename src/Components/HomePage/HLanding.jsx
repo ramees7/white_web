@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../../Context/ThemeContextApi";
 import HLandingBg1 from "../../assets/Hlanding-bg-1.jpg";
 import HLandingBg2 from "../../assets/Hlanding-bg-2.jpg";
+import { Link } from "react-router-dom";
 
 export default function HLanding() {
   const { theme } = useContext(ThemeContext);
@@ -15,9 +16,17 @@ export default function HLanding() {
     >
       <div className="flex justify-center">
         <div className="absolute md:top-[40%] top-[70%]   lg:text-7xl md:text-6xl text-5xl font-bold text-center space-y-3 text-white">
-          <h1><span className="md:text-black">Discover</span> Elegance</h1> 
-          <h1><span className="md:text-black ps-3">Unique W</span>hite Styles</h1>
-          <button className="border-2 py-3 px-6 text-base"><span className="md:text-black">Discover</span> Products</button>
+          <h1>
+            <span className="md:text-black">Discover</span> Elegance
+          </h1>
+          <h1>
+            <span className="md:text-black ps-3">Unique W</span>hite Styles
+          </h1>
+          <Link to={"/all-products"}>
+            <button className="border-2 py-3 px-6 text-base">
+              <span className="md:text-black">Discover</span> Products
+            </button>
+          </Link>
         </div>
       </div>
 
