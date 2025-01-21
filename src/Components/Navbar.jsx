@@ -142,7 +142,10 @@ export default function Navbar() {
     const handleClickOutside = (event) => {
       if (canvasRef.current && !canvasRef.current.contains(event.target)) {
         setIsCanvasOpen(false); // Close the canvas if click is outside
-        setIsCartOffcanvasOpen(false); // Close cart offcanvas if click is outside
+       // Close cart offcanvas if click is outside
+      }
+      if (cartCanvasRef.current && !cartCanvasRef.current.contains(event.target)) {
+        setIsCartOffcanvasOpen(false);       // Close cart offcanvas if click is outside
       }
     };
 
@@ -160,7 +163,7 @@ export default function Navbar() {
           theme === "dark"
             ? "bg-[#232323] text-white"
             : "bg-[#eeeeee] text-black"
-        } flex justify-between gap-5 items-center h-24 md:px-10 px-5 fixed top-0 w-full z-30 font-carme`}
+        } flex justify-between gap-5 items-center h-24 lg:px-20 md:px-10 px-6 fixed top-0 w-full z-30 font-carme`}
       >
         <div className="md:text-2xl text-xl flex gap-3" onClick={toggleCanvas}>
           <FaBars className=" cursor-pointer" />
@@ -178,8 +181,8 @@ export default function Navbar() {
           />
         </Link>
 
-        <div className="flex gap-3 items-center md:text-2xl text-xl">
-          <div className="relative group">
+        <div className="flex gap-3 items-center ">
+          <div className="relative group md:text-2xl text-xl">
             <button
               onClick={() => toggleTheme(theme === "dark" ? "light" : "dark")} // Toggle theme
               className="text-2xl flex items-center justify-center"
@@ -196,7 +199,7 @@ export default function Navbar() {
               {theme === "dark" ? "Light Mode" : "Dark Mode"}
             </div>
           </div>
-          <div className="relative group">
+          <div className="relative group md:text-2xl text-xl">
             <IoMdSearch className="text-2xl relative" />
             <div
               className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm  rounded opacity-0 group-hover:opacity-100 transition-opacity ${
@@ -224,12 +227,20 @@ export default function Navbar() {
             >
               Cart
             </div>
-            {isCartOffcanvasOpen && (
-              <div ref={cartCanvasRef}>
-                <CartOffcanvas toggleCartOffcanvas={toggleCartOffcanvas} isCartOffcanvasOpen={isCartOffcanvasOpen}/>
-              </div>
-            )}
+            <div
+              ref={cartCanvasRef}
+              className={`fixed top-0 right-0 w-96 h-full z-50 shadow-lg ${
+                theme === "dark"
+                  ? "bg-[#121212] text-white"
+                  : "bg-white text-black"
+              } transition-transform transform ${
+                isCartOffcanvasOpen ? "translate-x-0" : "translate-x-full"
+              }`} onClick={(e) => e.stopPropagation()}
+            >
+              <CartOffcanvas />
+            </div>
           </div>
+
           {isLogined ? (
             <div className="relative group">
               <div className="rounded-full">

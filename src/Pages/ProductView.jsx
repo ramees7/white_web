@@ -1,15 +1,30 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../Context/ThemeContextApi";
 import {
   MdOutlineStar,
   MdOutlineStarBorder,
   MdOutlineStarHalf,
 } from "react-icons/md";
+import { useLocation } from "react-router-dom";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 export default function ProductView() {
   const { theme } = useContext(ThemeContext);
   const [selectedSize, setSelectedSize] = useState("S"); // Default selected size
   const [showAll, setShowAll] = useState(false);
+
+  const location = useLocation();
+
+  const handleToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    handleToTop();
+  }, [location]);
 
   const handleSizeClick = (size) => {
     setSelectedSize(size);
@@ -76,7 +91,6 @@ export default function ProductView() {
           buyer: "Ramees",
           date: "May 2024",
         },
-       
       ],
       sku: "12121",
     },
@@ -120,7 +134,20 @@ export default function ProductView() {
         </div>
       </div>
       <div className="col-span-1 space-y-7">
-        <h1 className="text-4xl ">{product.title}</h1>
+        <div className="border-b pb-3">
+          <h1 className="text-4xl mb-2">{product.title}</h1>
+          <div className="flex items-center gap-5">
+            <div className="flex items-center space-x-1 text-base pe-5 border-r w-fit">
+              {renderStars(product.ratings)}
+              <span className="text-sm text-[#8e8e8e]">
+                ({product.ratings})
+              </span>
+            </div>
+            <h3>
+              SKU : <span className="text-[#8e8e8e]">{product.sku}</span>
+            </h3>
+          </div>
+        </div>
         <div className="space-y-2">
           <div className="flex items-center gap-5">
             <h1 className="text-xl">₹{product.offerPrice}</h1>
@@ -131,34 +158,33 @@ export default function ProductView() {
           <h3>Color : {product.color}</h3>
           <h3>Brand : {product.brand}</h3>
           <h3>Category : {product.category}</h3>
-          <h3 className="flex items-center gap-2">
-            Rating :{" "}
-            <div className="flex items-center space-x-1 md:text-lg text-base">
-              {renderStars(product.ratings)}
-              <span className="text-sm text-[#8e8e8e]">
-                ({product.ratings})
-              </span>
-            </div>
-          </h3>
+
           <h3> Size : {selectedSize}</h3>
           <div className="flex gap-2 ">
-            <div className="flex gap-2">
-              {product.sizes.map((size) => (
-                <div
-                  key={size}
-                  onClick={() => handleSizeClick(size)}
-                  className={`border px-2 cursor-pointer ${
-                    selectedSize === size
-                      ? theme === "dark"
-                        ? "border-[#fff] border-2"
-                        : "border-[#000] border-2"
-                      : "border-[#8e8e8e]"
-                  }`}
-                >
-                  {size}
-                </div>
-              ))}
-            </div>
+            {product.sizes.map((size) => (
+              <div
+                key={size}
+                onClick={() => handleSizeClick(size)}
+                className={`border px-2 cursor-pointer ${
+                  selectedSize === size
+                    ? theme === "dark"
+                      ? "border-[#fff] border-2"
+                      : "border-[#000] border-2"
+                    : "border-[#8e8e8e]"
+                }`}
+              >
+                {size}
+              </div>
+            ))}
+          </div>
+          <h3> Quantity : 2</h3>
+          <div className="flex gap-2">
+            <button className="p-1 border" title="Increase Quantity">
+              <FaPlus />
+            </button>
+            <button className="p-1 border" title="Decrease Quantity">
+              <FaMinus />
+            </button>
           </div>
         </div>
         <div
@@ -184,9 +210,6 @@ export default function ProductView() {
           </button>
         </div>
         <div className="space-y-2">
-          <h3>
-            SKU : <span className="text-[#8e8e8e]">{product.sku}</span>
-          </h3>
           <h3>
             Material :{" "}
             <span className="text-[#8e8e8e]">{product.material}</span>

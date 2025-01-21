@@ -44,7 +44,7 @@ export default function Footer() {
         theme === "dark"
           ? "bg-[#232323] text-[#9d9d9d]"
           : "bg-[#eeeeee] text-[#636363]"
-      } flex justify-center pt-10 pb-5 font-carme`}
+      } flex justify-center pt-10 pb-5 lg:px-20 md:px-10 px-6 font-carme`}
     >
       <div className="space-y-4 text-center text-sm md:text-base">
         <div>

@@ -58,7 +58,7 @@ export default function ProductCategories() {
   return (
     <div className={` relative font-montserrat `}>
       <div
-        className={`grid grid-cols-2 grid-rows-2  lg:gap-10 gap-5 max-h-screen min-h-[400px] lg:px-20 px-10 lg:py-10 py-5 h-fit ${
+        className={`grid grid-cols-2 grid-rows-2  lg:gap-10 md:gap-5 gap-2 max-h-screen min-h-[400px] lg:px-20 md:px-10 px-6 lg:py-10 py-5 h-fit ${
           theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
         }`}
       >
@@ -159,7 +159,7 @@ export default function ProductCategories() {
         </div>
       </div>
       <div
-        className={`lg:px-20 px-10 lg:py-10 py-5 ${
+        className={`lg:px-20 md:px-10 px-6 lg:py-10 py-5 ${
           theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
         }`}
       >

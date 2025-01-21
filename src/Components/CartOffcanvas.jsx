@@ -1,68 +1,104 @@
-import PropTypes from "prop-types";
-import { IoCloseOutline } from "react-icons/io5"; // Close icon
+import { useContext, useState } from "react";
+import { MdDelete, MdFullscreen } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { ThemeContext } from "../Context/ThemeContextApi";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
-export default function CartOffcanvas({ toggleOffcanvas ,isCartOffcanvasOpen }) {
+export default function CartOffcanvas() {
+  const { theme } = useContext(ThemeContext);
+
+  const [cartProducts] = useState([
+    {
+      id: 1,
+      thumbnail:
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_026.jpg?v=1736889008&width=1080",
+      category: "T-Shirts",
+      title: "tshirt",
+      size: "M",
+      offerPrice: 499,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      thumbnail:
+        "https://www.kitandace.com/cdn/shop/files/N_stantonshortsleevecrew_brightwhite_043.jpg?v=1736889008&width=1080",
+      category: "Shoes",
+      title: "shpes",
+      size: "9",
+      offerPrice: 999,
+      quantity: 1,
+    },
+  ]);
+
   return (
-    <div
-      className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-all transform ${
-        isCartOffcanvasOpen ? "translate-x-0" : "translate-x-full"
-      }`}
-      onClick={toggleOffcanvas} // Close the offcanvas when clicking outside
-    >
+    <div className="h-full flex flex-col">
+      {/* Top Section */}
+      <div className="flex justify-between p-5 border-b items-center h-fit text-2xl">
+        <h1>Cart : {cartProducts.length}</h1>
+        <Link to={"/"}>
+          <MdFullscreen />
+        </Link>
+      </div>
+
+      {/* Center Section */}
       <div
-        className="absolute top-0 right-0 w-80 bg-white h-full shadow-lg p-5"
-        onClick={(e) => e.stopPropagation()} // Prevent closing the offcanvas when clicking inside
+        className={`flex-grow ${
+          cartProducts.length > 0 ? "overflow-y-auto" : ""
+        }`}
       >
-        {/* Close Button */}
-        <div className="flex justify-between items-center mb-5">
-          <h2 className="text-lg font-bold">Your Cart</h2>
-          <button
-            className="text-2xl"
-            onClick={toggleOffcanvas} // Close the offcanvas
-          >
-            <IoCloseOutline />
-          </button>
-        </div>
-
-        {/* Cart Items */}
-        <div className="space-y-4">
-          {/* Example Cart Item */}
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="font-medium">Item Name</h3>
-              <p className="text-sm text-gray-500">Item Description</p>
-            </div>
-            <span className="font-bold">$25.00</span>
+        {cartProducts.length > 0 ? (
+          <div className="p-5 space-y-5">
+            {/* Product cart content starts from the top */}
+            {cartProducts.map((product, index) => (
+              <div key={index} className="flex justify-between gap-3 h-full text-[#8e8e8e]">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="w-20 h-20 object-cover"
+                  />
+                  <div>
+                    <h1 className="text-lg">{product.title}</h1>
+                    <p className="text-sm">
+                      Price: {product.offerPrice}
+                    </p>
+                    <p className="text-sm">
+                      Quantity: {product.quantity}
+                    </p>
+                  </div>
+                </div>
+                <div className=" flex flex-col justify-between items-end">
+                  <button className="text-2xl" title="Remove From Cart">
+                    <MdDelete />
+                  </button>
+                  <div className="flex gap-5">
+                    <button className="p-1 border" title="Increase Quantity">
+                      <FaPlus />
+                    </button>
+                    <button className="p-1 border" title="Decrease Quantity">
+                      <FaMinus />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-
-          {/* More Cart Items Here */}
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="font-medium">Item Name</h3>
-              <p className="text-sm text-gray-500">Item Description</p>
-            </div>
-            <span className="font-bold">$15.00</span>
+        ) : (
+          <div className="flex items-center justify-center flex-col gap-3 h-full">
+            <h1>Empty Cart</h1>
           </div>
-        </div>
+        )}
+      </div>
 
-        {/* Checkout Button */}
-        <div className="mt-5">
-          <button
-            onClick={() => {
-              // Handle checkout logic here
-              alert("Proceed to Checkout");
-            }}
-            className="w-full bg-blue-600 text-white py-2 rounded-md"
-          >
-            Proceed to Checkout
-          </button>
-        </div>
+      <div className="p-2 h-fit">
+        <button
+          className={`w-full py-2 text-base uppercase ${
+            theme === "dark" ? "bg-white text-black" : "bg-[#121212] text-white"
+          }`}
+        >
+          {cartProducts.length > 0 ? "Check Out Now" : "Shop Now"}
+        </button>
       </div>
     </div>
   );
 }
-
-CartOffcanvas.propTypes = {
-  toggleOffcanvas: PropTypes.func.isRequired, // Ensures toggleOffcanvas is a required function
-  isCartOffcanvasOpen: PropTypes.bool.isRequired, // Ensures toggleOffcanvas is a required function
-};
